@@ -1,6 +1,8 @@
 # go-simple-upload-server
 Simple HTTP server to save artifacts
 
+In this fork you can download files without a token. This is a main target of this fork.
+
 # Usage
 
 ## Start Server
@@ -43,7 +45,7 @@ $ curl -X PUT -Ffile=@sample.txt "http://localhost:25478/files/another_sample.tx
 `GET /files/(filename)`.
 
 ```
-$ curl 'http://localhost:25478/files/sample.txt?token=f9403fc5f537b4ab332d'
+$ curl 'http://localhost:25478/files/sample.txt'
 hello, world!
 ```
 
@@ -52,7 +54,7 @@ hello, world!
 `HEAD /files/(filename)`.
 
 ```
-$ curl -I 'http://localhost:25478/files/foobar.txt?token=f9403fc5f537b4ab332d'
+$ curl -I 'http://localhost:25478/files/foobar.txt'
 HTTP/1.1 200 OK
 Accept-Ranges: bytes
 Content-Length: 9
@@ -60,10 +62,10 @@ Content-Type: text/plain; charset=utf-8
 Last-Modified: Sun, 09 Oct 2016 14:35:39 GMT
 Date: Sun, 09 Oct 2016 14:35:43 GMT
 
-$ curl 'http://localhost:25478/files/foobar.txt?token=f9403fc5f537b4ab332d'
+$ curl 'http://localhost:25478/files/foobar.txt'
 hello!!!
 
-$ curl -I 'http://localhost:25478/files/unknown?token=f9403fc5f537b4ab332d'
+$ curl -I 'http://localhost:25478/files/unknown'
 HTTP/1.1 404 Not Found
 Content-Type: text/plain; charset=utf-8
 X-Content-Type-Options: nosniff
@@ -122,7 +124,7 @@ NOTE: The endpoint using HTTP is still active even if TLS is enabled.
 
 There is no Basic/Digest authentication. This app implements dead simple authentication: "security token".
 
-All requests should have `token` parameter (it can be passed as a query string or a form parameter). The server accepts the request only when the token is matched; otherwise, the server rejects the request and respond `401 Unauthorized`.
+All requests except GET and HEAD should have `token` parameter (it can be passed as a query string or a form parameter). The server accepts the request only when the token is matched; otherwise, the server rejects the request and respond `401 Unauthorized`.
 
 You can specify the server's token on startup by `-token` option. If you don't so, the server generates the token and writes it to STDOUT at WARN level log, like as:
 
