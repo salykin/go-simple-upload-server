@@ -1,4 +1,4 @@
-module github.com/mayth/go-simple-upload-server
+module github.com/salykin/go-simple-upload-server
 
 go 1.14
 
