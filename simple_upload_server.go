@@ -50,12 +50,8 @@ func run(args []string) int {
 	}
 	protectedMethods := []string{}
 	for _, method := range strings.Split((*protectedMethodFlag), ",") {
-		if strings.EqualFold("GET", method) {
-			protectedMethods = append(protectedMethods, http.MethodGet)
-		} else if strings.EqualFold("POST", method) {
+		if strings.EqualFold("POST", method) {
 			protectedMethods = append(protectedMethods, http.MethodPost)
-		} else if strings.EqualFold("HEAD", method) {
-			protectedMethods = append(protectedMethods, http.MethodHead)
 		} else if strings.EqualFold("PUT", method) {
 			protectedMethods = append(protectedMethods, http.MethodPut)
 		} else if strings.EqualFold("OPTIONS", method) {
